@@ -1,10 +1,8 @@
-First release. Probably buggy.
+Second release. Way less buggy.
 
-This is an MS DOS .bat file that is meant to help with launching the GZDoom mod, Brutal Doom. By default, it's a little difficult to launch the iwads and pwads without making your own custom command line or finding a frontend, all of which are a bit more complex than they need to be. This one isn't too simple, but I'm working (slowly) on getting it more and more simple and easy, while also being more comprehensive.
+This is an MS DOS batch file that is meant to help with launching the GZDoom mod, Brutal Doom. By default, it's a little difficult to launch the iwads and pwads without making your own custom command line or finding a frontend, all of which are a bit more complex than they need to be. This one isn't too simple, but I'm working (slowly) on getting it more and more simple and easy, while also being more comprehensive.
 
 It'll try to walk you through the setup process on its own, but here's a copy of the readme:
-
-
 
  Instructions for setup:
 

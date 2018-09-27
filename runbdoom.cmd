@@ -59,12 +59,57 @@ GOTO eof
 :game
 cd game
 rem Check if config file exists
+IF NOT EXIST settings.cfg (
 ECHO   Config file not found. Creating...
+GOTO makeconfig
+)
+(
+set /p bmod=
+set /p brutal=
+set /p mmod=
+set /p metal=
+set /p cmod=
+set /p custom=
+set /p d2wad=
+set /p iwadname=
+)<settings.cfg
 rem Change how the launcher reports boolean values here. example: on/off, enabled/disabled, true/false
 set onoption=ON
 set offoption=OFF
-IF NOT EXIST settings.cfg GOTO makeconfig
 IF NOT EXIST gzdoom.exe goto HELPME
+goto start
+
+:makeconfig
+
+IF EXIST doom2.wad (SET d2wad=doom2.wad) else (IF EXIST plutonia.wad (SET d2wad=plutonia.wad) else (IF EXIST tnt.wad (SET d2wad=tnt.wad) else (IF EXIST freedoom2.wad (SET d2wad=freedoom2.wad) ELSE (set d2wad=.))))
+rem If no config file exists, create with default settings
+
+(
+echo bd21rc1fix.pk3
+echo true
+echo DoomMetalVol4.wad
+echo true
+echo .
+echo false
+echo %d2wad%
+echo .
+)>settings.cfg
+ECHO.
+IF NOT EXIST settings.cfg GOTO cantmake
+(
+set /p bmod=
+set /p brutal=
+set /p mmod=
+set /p metal=
+set /p cmod=
+set /p custom=
+set /p d2wad=
+set /p iwadname=
+)<settings.cfg
+ECHO    Done.
+ECHO.
+
+GOTO game
 
 :start
 cls
@@ -95,37 +140,6 @@ ECHO  `''                                                                      `
 ECHO.
 
 
-:makeconfig
-
-IF EXIST doom2.wad (SET d2wad=doom2.wad) else (IF EXIST plutonia.wad (SET d2wad=plutonia.wad) else (IF EXIST tnt.wad (SET d2wad=tnt.wad) else (IF EXIST freedoom2.wad (SET d2wad=freedoom2.wad) ELSE (set d2wad=.))))
-rem If no config file exists, create with default settings
-
-(
-echo bd21testApr25.pk3
-echo true
-echo DoomMetalVol4.wad
-echo true
-echo .
-echo false
-echo %d2wad%
-echo .
-)>settings.cfg
-ECHO.
-IF NOT EXIST settings.cfg GOTO cantmake
-(
-set /p bmod=
-set /p brutal=
-set /p mmod=
-set /p metal=
-set /p cmod=
-set /p custom=
-set /p d2wad=
-set /p iwadname=
-)<settings.cfg
-ECHO    Done.
-ECHO.
-
-GOTO game
 
 :main
 rem Pulling settings from config file
@@ -192,7 +206,7 @@ IF NOT EXIST %bmod% (
 ECHO.
 ECHO    Error: Brutal Doom mod not found.
 ECHO          Either toggle this setting off, or place %bmod% in .\game, or edit
-ECHO          the filename in the settings menu. (option C)
+ECHO          the filename in the settings menu. (option C^)
 ECHO.
 )
 goto checkmetal
@@ -214,7 +228,7 @@ IF NOT EXIST %mmod% (
 ECHO.
 ECHO    Error: Metal Soundtrack mod not found.
 ECHO          Either toggle this setting off, or place %mmod% in .\game, or edit
-ECHO          the filename in the settings menu. (option C)
+ECHO          the filename in the settings menu. (option C^))
 ECHO.
 )
 goto mainmenu
@@ -312,6 +326,8 @@ ECHO  C. Configure mod settings
 ECHO  H. Setup help
 ECHO  D. Mod download menu
 ECHO.
+ECHO  X. Exit
+ECHO.
 
 set choice=
 set /p choice=Type your choice: 
@@ -319,6 +335,8 @@ if not '%choice%'=='' set choice=%choice:~0,2%
 if /I '%choice%'=='C' goto msets
 if /I '%choice%'=='H' goto helpme
 if /I '%choice%'=='D' goto download
+if /I '%choice%'=='X' goto end
+
 
 if %brutal% == false set bload=''
 if %metal% == false set mload=''
@@ -429,6 +447,7 @@ ECHO =='    _-'                    Launcher for GZDoom                     \/   
 ECHO \   _-'                                                                `-_   /
 ECHO  `''                                                                      ``'
 ECHO.
+
 ECHO ==============================================================================
 ECHO ^|                                                                            ^|
 ECHO ^| Instructions for setup:                                                    ^|
@@ -519,7 +538,7 @@ set /p choice=Y/N:
 if not '%choice%'=='' set choice=%choice:~0,1%
 if /I '%choice%'=='Y' goto download
 IF EXIST gzdoom.exe goto start
-GOTO eof
+GOTO end
 
 :download
 CLS
@@ -830,7 +849,7 @@ goto msets
 :restoredefault
 del settings.cfg
 IF EXIST settings.cfg goto cantdel
-goto start
+goto makeconfig
 
 rem game run commands start here
 :doom
