@@ -85,9 +85,9 @@ IF EXIST doom2.wad (SET d2wad=doom2.wad) else (IF EXIST plutonia.wad (SET d2wad=
 rem If no config file exists, create with default settings
 
 (
-echo bd21rc1fix.pk3
+echo brutalv21.pk3
 echo true
-echo DoomMetalVol4.wad
+echo DoomMetalVol5.wad
 echo true
 echo .
 echo false
