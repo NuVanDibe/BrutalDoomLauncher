@@ -27,6 +27,10 @@ rem nonlicensed iwads:
 rem chex3.wad: chex quest 3
 rem wolfenstein 3d tc: https://www.afadoomer.com/wolf3d/default.php
 
+rem INIT CONFIG:
+
+set bdwadlatest=brutalv21.pk3
+set metalstlatest=DoomMetalVol5.wad
 
 IF EXIST game GOTO game
 
@@ -85,9 +89,9 @@ IF EXIST doom2.wad (SET d2wad=doom2.wad) else (IF EXIST plutonia.wad (SET d2wad=
 rem If no config file exists, create with default settings
 
 (
-echo brutalv21.pk3
+echo %bdwadlatest%
 echo true
-echo DoomMetalVol5.wad
+echo %metalstlatest%
 echo true
 echo .
 echo false
